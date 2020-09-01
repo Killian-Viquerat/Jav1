@@ -25,7 +25,7 @@ public class Scenery {
     }
 
     public void addPig(){
-        for(int i = 0 ; i < 3 ; i++ ){
+        for(int i = 0 ; i < 4 ; i++ ){
             int x = (int)(Math.random() * (jav1bird.WORLD_WIDTH - 500)) + 500;
             addElement(new Pig(x,jav1bird.FLOOR_HEIGHT,"Coucou",(int)Math.random()*10));
         }
@@ -59,6 +59,9 @@ public class Scenery {
     public boolean OverlapBlock(PhysicalObject element){
         for(PhysicalObject object :scene) {
             if(element.Overlap(object)){
+                if(object.getClass() == Pig.class){
+                    scene.remove(object);
+                }
                 return true;
             }
         }
