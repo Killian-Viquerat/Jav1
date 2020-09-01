@@ -56,16 +56,16 @@ public class Scenery {
         }
     }
 
-    public boolean OverlapBlock(PhysicalObject element){
+    public PhysicalObject OverlapBlock(PhysicalObject element){
         for(PhysicalObject object :scene) {
             if(element.Overlap(object)){
                 if(object.getClass() == Pig.class){
                     scene.remove(object);
                 }
-                return true;
+                return object;
             }
         }
-        return false;
+        return null;
     }
 
     public ArrayList<PhysicalObject> GetPig(){

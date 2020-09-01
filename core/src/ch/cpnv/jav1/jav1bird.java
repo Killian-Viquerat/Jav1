@@ -38,6 +38,7 @@ public class jav1bird extends ApplicationAdapter implements InputProcessor{
 	private Rubber rubber2;
 	private OrthographicCamera camera;
 	private Sound sound;
+	private PhysicalObject hit;
 
 	@Override
 	public void create () {
@@ -108,9 +109,17 @@ public class jav1bird extends ApplicationAdapter implements InputProcessor{
 					bird.reset();
 				}
 			}
-			if(bird.Overlap(wasp) || scene.OverlapBlock(bird)){
+			hit = scene.OverlapBlock(bird);
+			if(bird.Overlap(wasp)){
 				bird.reset();
 			}
+			if(hit != null){
+				if(hit.getClass() == Tnt.class){
+					Score -= 1;
+				}
+				bird.reset();
+			}
+			
 		}
 		if(bubble.getDuration()>0) {
 			bubble.updateDuration(dt);
