@@ -3,7 +3,7 @@ package Model.cpnv.jav1;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-import ch.cpnv.jav1.jav1bird;
+import ch.cpnv.jav1.activities.Play;
 
 public class Wasp extends MovingObject {
     private static final int AGITATION = 15;
@@ -13,7 +13,7 @@ public class Wasp extends MovingObject {
 
     @Override
     public void accelerate(float dt){
-            Vector2 craziness = new Vector2((jav1bird.random.nextFloat() - (getX() / jav1bird.WORLD_WIDTH))* 0.5f , (jav1bird.random.nextFloat() - (getY() / jav1bird.WORLD_HEIGHT))* 0.5f);
+            Vector2 craziness = new Vector2((Play.random.nextFloat() - (getX() / Play.WORLD_WIDTH))* 0.5f , (Play.random.nextFloat() - (getY() / Play.WORLD_HEIGHT))* 0.5f);
             speed = speed.add(craziness.scl(AGITATION));
     }
 

@@ -1,8 +1,7 @@
 package Model.cpnv.jav1;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import ch.cpnv.jav1.jav1bird;
-
+import ch.cpnv.jav1.activities.Play;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -26,21 +25,21 @@ public class Scenery {
 
     public void addPig(){
         for(int i = 0 ; i < 4 ; i++ ){
-            int x = (int)(Math.random() * (jav1bird.WORLD_WIDTH - 500)) + 500;
-            addElement(new Pig(x,jav1bird.FLOOR_HEIGHT,"Coucou",(int)Math.random()*10));
+            int x = (int)(Math.random() * (Play.WORLD_WIDTH - 500)) + 500;
+            addElement(new Pig(x,Play.FLOOR_HEIGHT,"Coucou",(int)Math.random()*10));
         }
     }
 
     public void addTnt(){
         for(int i = 0 ; i < 3 ; i++ ){
-            int x = (int)(Math.random() * (jav1bird.WORLD_WIDTH - 500)) + 500;
-            addElement(new Tnt(x,jav1bird.FLOOR_HEIGHT,(int)Math.random()*10));
+            int x = (int)(Math.random() * (Play.WORLD_WIDTH - 500)) + 500;
+            addElement(new Tnt(x,Play.FLOOR_HEIGHT,(int)Math.random()*10));
         }
     }
 
     public void addBlock(){
-        for(int i = 500;i < jav1bird.WORLD_WIDTH; i+= BlockSize){
-            addElement(new PhysicalObject("block.png",i,jav1bird.FLOOR_HEIGHT,BlockSize,BlockSize));
+        for(int i = 500;i < Play.WORLD_WIDTH; i+= BlockSize){
+            addElement(new PhysicalObject("block.png",i,Play.FLOOR_HEIGHT,BlockSize,BlockSize));
         }
     }
 

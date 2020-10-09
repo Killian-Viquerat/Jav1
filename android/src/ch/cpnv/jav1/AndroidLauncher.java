@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
 import ch.cpnv.jav1.jav1bird;
 
 public class AndroidLauncher extends AndroidApplication {
