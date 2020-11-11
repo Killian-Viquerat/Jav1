@@ -12,11 +12,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import java.awt.image.PixelGrabber;
 import java.util.ArrayList;
 import java.util.Random;
 
 import Model.cpnv.jav1.Bird;
 import Model.cpnv.jav1.Bubble;
+import Model.cpnv.jav1.Panel;
 import Model.cpnv.jav1.PhysicalObject;
 import Model.cpnv.jav1.Pig;
 import Model.cpnv.jav1.Rubber;
@@ -24,6 +26,10 @@ import Model.cpnv.jav1.Scenery;
 import Model.cpnv.jav1.SlingShot;
 import Model.cpnv.jav1.Tnt;
 import Model.cpnv.jav1.Wasp;
+import Model.cpnv.providers.VocProvider;
+import Model.cpnv.jav1.data.Vocabulary;
+import Model.cpnv.jav1.data.Word;
+import ch.cpnv.jav1.jav1bird;
 
 public class Play extends Game implements InputProcessor{
 	public static final int WORLD_WIDTH = 1600;
@@ -33,8 +39,6 @@ public class Play extends Game implements InputProcessor{
 	public static Random random;
 	public int Score;
 	private Texture background;
-	private Texture panel;
-	private Bubble bubble;
 	private Bird bird;
 	private Wasp wasp;
 	private SpriteBatch batch;
@@ -46,9 +50,14 @@ public class Play extends Game implements InputProcessor{
 	private Rubber rubber2;
 	private OrthographicCamera camera;
 	private Sound sound;
+	private VocProvider vocSource = VocProvider.getInstance();
+	private Vocabulary voc;
 	private PhysicalObject hit;
+	private Panel guess;
 
 	public Play() {
+		//Voc
+		voc = vocSource.pickAVoc();
 		random = new Random();
 		//Camera
 		camera = new OrthographicCamera();
@@ -57,7 +66,6 @@ public class Play extends Game implements InputProcessor{
 		camera.update();
 		//Texture
 		background = new Texture("background.jpg");
-		panel = new Texture("panel.png");
 		//Batch
 		batch = new SpriteBatch();
 		//Bird/Wasp
@@ -65,7 +73,7 @@ public class Play extends Game implements InputProcessor{
 		wasp = new Wasp(500,500,  new Vector2(0,0));
 		//Level element
 		scene = new Scenery();
-		scene.createLevel();
+		scene.createLevel(voc);
 		slingshot1 = new SlingShot("slingshot1.png");
 		slingshot2 = new SlingShot("slingshot2.png");
 		rubber1 = new Rubber(170,238);
@@ -78,8 +86,7 @@ public class Play extends Game implements InputProcessor{
 		Score = 0;
 		font = new BitmapFont();
 		font.getData().setScale(3f);
-		//bubble
-		bubble = new Bubble(0,0,"",0);
+		guess = new Panel(scene.GetRandomPigWord());
 	}
 
 	@Override
@@ -92,7 +99,6 @@ public class Play extends Game implements InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		batch.draw(panel, 100, WORLD_HEIGHT-250,250,250);
 		slingshot1.draw(batch);
 		rubber1.draw(batch);
 		bird.draw(batch);
@@ -100,10 +106,7 @@ public class Play extends Game implements InputProcessor{
 		slingshot2.draw(batch);
 		wasp.draw(batch);
 		scene.draw(batch);
-		if(bubble.getDuration()>0) {
-			bubble.draw(batch);
-			bubble.drawFont(batch);
-		}
+		guess.draw(batch);
 		font.draw(batch, "Score:"+Score, 1300, 800);
 		batch.end();
 	}
@@ -122,18 +125,30 @@ public class Play extends Game implements InputProcessor{
 			}
 			hit = scene.OverlapBlock(bird);
 			if(bird.Overlap(wasp)){
-				bird.reset();
+				jav1bird.pages.push(new GameOver());
 			}
 			if(hit != null){
-				if(hit.getClass() == Tnt.class){
+				if(hit instanceof Tnt){
 					Score -= 1;
+				}
+				if(hit instanceof Pig){
+					if(((Pig) hit).sayWord().getValue1() == guess.word.getValue1()){
+						scene.scene.remove(hit);
+						Score +=1;
+					}
 				}
 				bird.reset();
 			}
-			
-		}
-		if(bubble.getDuration()>0) {
-			bubble.updateDuration(dt);
+			ArrayList<Pig> pigs = scene.GetPig();
+			for(Pig object :pigs) {
+				if(object.talking==true){
+					object.bubble.updateDuration(dt);
+					if (object.bubble.getDuration() <= 0) {
+						object.talking = false;
+						object.bubble = null;
+					}
+				}
+			}
 		}
 	}
 
@@ -166,10 +181,10 @@ public class Play extends Game implements InputProcessor{
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
 		Vector3 pointTouch = camera.unproject(new Vector3(x, y, 0));
-		ArrayList<PhysicalObject> pigs = scene.GetPig();
-		for(PhysicalObject object :pigs) {
+		for(Pig object :scene.GetPig()) {
 			if(object.getBoundingRectangle().contains(pointTouch.x, pointTouch.y)){
-				bubble = new Bubble((object.getX()-object.getWidth()),(object.getY()+object.getHeight()),((Pig)object).sayWord(),2);
+				object.createBubble();
+				object.talking=true;
 			}
 		}
 		return false;

@@ -2,15 +2,17 @@ package Model.cpnv.jav1;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class TextualObject extends PhysicalObject {
-    protected String word;
+import Model.cpnv.jav1.data.Word;
 
-    public TextualObject(String picName, float srcX, float srcY,  int WIDTH, int HEIGHT, String word) {
+public class TextualObject extends PhysicalObject {
+    protected Word word;
+
+    public TextualObject(String picName, float srcX, float srcY,  int WIDTH, int HEIGHT, Word word) {
         super(picName, srcX, srcY, WIDTH, HEIGHT);
         this.word = word;
     }
 
-    protected String getWord(){
+    protected Word getWord(){
         return word;
     }
 }

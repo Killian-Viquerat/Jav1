@@ -1,15 +1,17 @@
 package Model.cpnv.jav1;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import Model.cpnv.jav1.data.Vocabulary;
+import Model.cpnv.jav1.data.Word;
 import ch.cpnv.jav1.activities.Play;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import ch.cpnv.jav1.customException.OutOfSceneryException;
 
-import static java.lang.Math.*;
+import java.util.ArrayList;
 
 public class Scenery {
     private static int BlockSize = 40;
-    private ArrayList<PhysicalObject> scene;
+    public ArrayList<PhysicalObject> scene;
+
     public Scenery(){
         scene = new ArrayList<PhysicalObject>();
     }
@@ -20,13 +22,17 @@ public class Scenery {
                 element.setY(object.getY() + object.getHeight());
             }
         }
-        scene.add(element);
+        try {
+            if (element.getX() < 0 || element.getX() > Play.WORLD_WIDTH || element.getY() < 0 || element.getY() > Play.WORLD_HEIGHT)throw new OutOfSceneryException("Element out of scenery");
+                scene.add(element);
+        }catch(OutOfSceneryException e){
+        }
     }
 
-    public void addPig(){
+    public void addPig(Vocabulary voc){
         for(int i = 0 ; i < 4 ; i++ ){
             int x = (int)(Math.random() * (Play.WORLD_WIDTH - 500)) + 500;
-            addElement(new Pig(x,Play.FLOOR_HEIGHT,"Coucou",(int)Math.random()*10));
+            addElement(new Pig(x,Play.FLOOR_HEIGHT,voc.pickAWord(),(int)Math.random()*10));
         }
     }
 
@@ -43,9 +49,9 @@ public class Scenery {
         }
     }
 
-    public void createLevel(){
+    public void createLevel(Vocabulary voc){
         addBlock();
-        addPig();
+        addPig(voc);
         addTnt();
     }
 
@@ -58,22 +64,29 @@ public class Scenery {
     public PhysicalObject OverlapBlock(PhysicalObject element){
         for(PhysicalObject object :scene) {
             if(element.Overlap(object)){
-                if(object.getClass() == Pig.class){
-                    scene.remove(object);
-                }
                 return object;
             }
         }
         return null;
     }
 
-    public ArrayList<PhysicalObject> GetPig(){
-       ArrayList<PhysicalObject> pigs = new ArrayList<PhysicalObject>();
+    public ArrayList<Pig> GetPig(){
+       ArrayList<Pig> pigs = new ArrayList<Pig>();
         for(PhysicalObject object :scene){
-            if(object.getClass() == Pig.class){
-                pigs.add(object);
+            if(object instanceof Pig){
+                pigs.add((Pig)object);
             }
         }
         return pigs;
+    }
+
+    public Word GetRandomPigWord(){
+        ArrayList<Pig> pigs = new ArrayList<Pig>();
+        for(PhysicalObject object :scene){
+            if(object instanceof Pig){
+                pigs.add((Pig)object);
+            }
+        }
+        return pigs.get(Play.random.nextInt(pigs.size())).sayWord();
     }
 }
