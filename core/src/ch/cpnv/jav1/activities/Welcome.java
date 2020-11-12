@@ -28,6 +28,8 @@ public class Welcome extends Game implements InputProcessor{
 	public static Random random;
 	public String firstLanguage = "(choisir)";
 	public String secondLanguage = "(choisir)";
+	public String firstISOLanguage = "";
+	public String secondISOLanguage = "";
 	private Texture background;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -36,6 +38,7 @@ public class Welcome extends Game implements InputProcessor{
 	private ArrayList<Button> buttons1 = new ArrayList<Button>();
 	private int Y_buttons = 350;
 	private ArrayList<Button> buttons2 = new ArrayList<Button>();
+	private Button ok;
 	private VocProvider vocSource = VocProvider.getInstance();
 
 	public Welcome() {
@@ -51,14 +54,15 @@ public class Welcome extends Game implements InputProcessor{
 		Gdx.input.setInputProcessor(this);
 		languages = vocSource.getLanguages();
 		for(Language language :languages) {
-			Button button = new Button(WORLD_WIDTH/3,Y_buttons,language.getDisplayName()); buttons1.add(button);
+			Button button = new Button(WORLD_WIDTH/3,Y_buttons,language.getDisplayName(),language.getISO_639_1()); buttons1.add(button);
 			Y_buttons -= (button.getHeight()+10);
 		}
 		Y_buttons = 350;
 		for(Language language :languages) {
-			Button button = new Button(WORLD_WIDTH/2,Y_buttons,language.getDisplayName()); buttons2.add(button);
+			Button button = new Button(WORLD_WIDTH/2,Y_buttons,language.getDisplayName(),language.getISO_639_1()); buttons2.add(button);
 			Y_buttons -= (button.getHeight()+10);
 		}
+		ok = new Button(WORLD_WIDTH/4,WORLD_HEIGHT/5*3,"ok","");
 	}
 
 	@Override
@@ -78,6 +82,9 @@ public class Welcome extends Game implements InputProcessor{
 		}
 		for(Button button : buttons2){
 			button.draw(batch);
+		}
+		if(firstLanguage != "(choisir)" && secondLanguage != "(choisir)") {
+			ok.draw(batch);
 		}
 		batch.end();
 	}
@@ -106,15 +113,22 @@ public class Welcome extends Game implements InputProcessor{
 		Vector3 pointTouch = camera.unproject(new Vector3(x, y, 0));
 		Vector2 point = new Vector2(pointTouch.x,pointTouch.y);
 		for(Button b :buttons1){
-			if(b.IsTouched(point) == true){
-				firstLanguage = b.getValue();
+			if(b.IsTouched(point)){
+				firstLanguage = b.getWord();
+				firstISOLanguage = b.getValue();
 				buttons1 = new ArrayList<Button>();
 			}
 		}
 		for(Button b :buttons2){
-			if(b.IsTouched(point) == true){
-				secondLanguage = b.getValue();
+			if(b.IsTouched(point)){
+				secondLanguage = b.getWord();
+				secondISOLanguage = b.getValue();
 				buttons2 = new ArrayList<Button>();
+			}
+		}
+		if(firstLanguage != "(choisir)" && secondLanguage != "(choisir)") {
+			if (ok.IsTouched(point)) {
+				jav1bird.pages.push(new Play(firstISOLanguage,secondISOLanguage));
 			}
 		}
 		return false;
