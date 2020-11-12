@@ -33,7 +33,10 @@ public class Scenery {
     public void addPig(Vocabulary voc){
         for(int i = 0 ; i < 4 ; i++ ){
             int x = (int)(Math.random() * (Play.WORLD_WIDTH - 500)) + 500;
-            addElement(new Pig(x,Play.FLOOR_HEIGHT,voc.pickAWord(),(int)Math.random()*10));
+            try {
+                addElement(new Pig(x, Play.FLOOR_HEIGHT, voc.pickAWord(), (int) Math.random() * 10));
+            }
+            catch (Exception e){}
         }
     }
 

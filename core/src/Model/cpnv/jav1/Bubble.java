@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Word;
 import ch.cpnv.jav1.activities.Play;
+import ch.cpnv.jav1.customException.TranslationDoesNotExistException;
 
 public class Bubble extends TextualObject {
     private float Duration;
@@ -18,7 +19,7 @@ public class Bubble extends TextualObject {
     private BitmapFont font;
     private GlyphLayout glyphLayout;
 
-    public Bubble(float srcX, float srcY, SemanticWord word, float duration) {
+    public Bubble(float srcX, float srcY, SemanticWord word, float duration) throws TranslationDoesNotExistException {
         super(picName, srcX, srcY, WIDTH, HEIGHT, word.getValue("en"));
         Duration = duration;
         font = new BitmapFont();

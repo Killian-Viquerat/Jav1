@@ -34,7 +34,11 @@ public class Panel extends Sprite {
     }
 
     public void drawFont(Batch batch){
-        font.draw(batch, word.getValue(Play.ISO1),getX()+TEXT_OFFSET_X, getY()+TEXT_OFFSET_Y);
+        try {
+            font.draw(batch, word.getValue(Play.ISO1) ,getX() + TEXT_OFFSET_X, getY() + TEXT_OFFSET_Y);
+        }
+        catch(Exception e){
+        }
     }
 
     public void draw(Batch batch){

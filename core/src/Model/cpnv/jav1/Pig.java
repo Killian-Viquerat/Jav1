@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Word;
 import ch.cpnv.jav1.activities.Play;
+import ch.cpnv.jav1.customException.TranslationDoesNotExistException;
 
 public class Pig extends TextualObject {
     private int Points;
@@ -15,9 +16,10 @@ public class Pig extends TextualObject {
     public static final int HEIGHT = 60;
     public boolean talking = false;
     public SemanticWord word;
+    private String value;
 
-    public Pig(int srcX, int srcY, SemanticWord word, int points) {
-        super(picName, srcX, srcY, WIDTH, HEIGHT , word.getValue(Play.ISO2));
+    public Pig(int srcX, int srcY, SemanticWord word, int points) throws TranslationDoesNotExistException {
+        super(picName, srcX, srcY, WIDTH, HEIGHT,word.getValue(Play.ISO2));
         this.word = word;
         Points = points;
     }
@@ -29,7 +31,9 @@ public class Pig extends TextualObject {
 
     public void createBubble(){
         if(bubble == null) {
-            bubble = new Bubble((this.getX() - this.getWidth()), (this.getY() + this.getHeight()), ((Pig) this).sayWord(), 2);
+            try {
+                bubble = new Bubble((this.getX() - this.getWidth()), (this.getY() + this.getHeight()), ((Pig) this).sayWord(), 2);
+            }catch(Exception e){}
         }
     }
     public SemanticWord sayWord(){
