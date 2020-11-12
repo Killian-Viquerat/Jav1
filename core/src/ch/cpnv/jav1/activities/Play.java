@@ -37,7 +37,7 @@ public class Play extends Game implements InputProcessor{
 	public static final int FLOOR_HEIGHT = 125;
 
 	public static Random random;
-	public static String ISO1,ISO2;
+	public static String ISO1,ISO2,Language1,Language2;
 	public int Score;
 	private Texture background;
 	private Bird bird;
@@ -56,10 +56,12 @@ public class Play extends Game implements InputProcessor{
 	private PhysicalObject hit;
 	private Panel guess;
 
-	public Play(String ISO1,String ISO2) {
+	public Play(String ISO1,String ISO2,String Language1, String Language2) {
 		//Voc
 		this.ISO1 = ISO1;
 		this.ISO2 = ISO2;
+		this.Language1 = Language1;
+		this.Language2 = Language2;
 		voc = vocSource.pickAVoc();
 		random = new Random();
 		//Camera
@@ -111,6 +113,7 @@ public class Play extends Game implements InputProcessor{
 		scene.draw(batch);
 		guess.draw(batch);
 		font.draw(batch, "Score:"+Score, 1300, 800);
+		font.draw(batch, "Pratique de " +Language1+ " en "+Language2, guess.getOriginX()+guess.getWidth(), this.WORLD_HEIGHT-guess.getWidth()/2);
 		batch.end();
 	}
 

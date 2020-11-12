@@ -128,7 +128,7 @@ public class Welcome extends Game implements InputProcessor{
 		}
 		if(firstLanguage != "(choisir)" && secondLanguage != "(choisir)") {
 			if (ok.IsTouched(point)) {
-				jav1bird.pages.push(new Play(firstISOLanguage,secondISOLanguage));
+				jav1bird.pages.push(new Play(firstISOLanguage,secondISOLanguage,firstLanguage,secondLanguage));
 			}
 		}
 		return false;
