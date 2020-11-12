@@ -6,7 +6,6 @@ import Model.cpnv.jav1.data.Language;
 import Model.cpnv.jav1.data.SemanticWord;
 import ch.cpnv.jav1.jav1bird;
 import Model.cpnv.jav1.data.Vocabulary;
-import Model.cpnv.jav1.data.Word;
 
 public class VocProvider {
 
