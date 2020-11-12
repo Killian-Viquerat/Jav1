@@ -19,6 +19,7 @@ public class Button extends TextualObject {
 
     public Button(float srcX, float srcY,  String word){
         super(picName, srcX, srcY, WIDTH, HEIGHT , word);
+        value = word;
         font = new BitmapFont();
         font.getData().setScale(2f);
         font.setColor(Color.WHITE);

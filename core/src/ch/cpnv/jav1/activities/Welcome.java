@@ -26,6 +26,8 @@ public class Welcome extends Game implements InputProcessor{
 	public static final int WORLD_WIDTH = 1600;
 	public static final int WORLD_HEIGHT = 900;
 	public static Random random;
+	public String firstLanguage = "(choisir)";
+	public String secondLanguage = "(choisir)";
 	private Texture background;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -70,7 +72,7 @@ public class Welcome extends Game implements InputProcessor{
 		batch.begin();
 		batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
 		font.draw(batch, "Angryyy Zawarudo", WORLD_WIDTH/3, WORLD_HEIGHT/5*4);
-		font.draw(batch, "Exercice de (choisir) en (choisir)", WORLD_WIDTH/3, WORLD_HEIGHT/5*3);
+		font.draw(batch, "Exercice de "+ firstLanguage +" en "+ secondLanguage, WORLD_WIDTH/3, WORLD_HEIGHT/5*3);
 		for(Button button : buttons1){
 			button.draw(batch);
 		}
@@ -103,7 +105,18 @@ public class Welcome extends Game implements InputProcessor{
 	public boolean touchDown (int x, int y, int pointer, int button) {
 		Vector3 pointTouch = camera.unproject(new Vector3(x, y, 0));
 		Vector2 point = new Vector2(pointTouch.x,pointTouch.y);
-		//jav1bird.pages.push(new Play());
+		for(Button b :buttons1){
+			if(b.IsTouched(point) == true){
+				firstLanguage = b.getValue();
+				buttons1 = new ArrayList<Button>();
+			}
+		}
+		for(Button b :buttons2){
+			if(b.IsTouched(point) == true){
+				secondLanguage = b.getValue();
+				buttons2 = new ArrayList<Button>();
+			}
+		}
 		return false;
 	}
 	@Override
