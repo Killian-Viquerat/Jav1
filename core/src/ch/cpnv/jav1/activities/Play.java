@@ -37,6 +37,7 @@ public class Play extends Game implements InputProcessor{
 	public static final int FLOOR_HEIGHT = 125;
 
 	public static Random random;
+	public static String ISO1,ISO2;
 	public int Score;
 	private Texture background;
 	private Bird bird;
@@ -55,8 +56,10 @@ public class Play extends Game implements InputProcessor{
 	private PhysicalObject hit;
 	private Panel guess;
 
-	public Play() {
+	public Play(String ISO1,String ISO2) {
 		//Voc
+		this.ISO1 = ISO1;
+		this.ISO2 = ISO2;
 		voc = vocSource.pickAVoc();
 		random = new Random();
 		//Camera
@@ -131,12 +134,12 @@ public class Play extends Game implements InputProcessor{
 				if(hit instanceof Tnt){
 					Score -= 1;
 				}
-				if(hit instanceof Pig){
-					if(((Pig) hit).sayWord().getValue1() == guess.word.getValue1()){
-						scene.scene.remove(hit);
-						Score +=1;
-					}
-				}
+				//if(hit instanceof Pig){
+				//	if(((Pig) hit).sayWord().getValue1() == guess.word.getValue1()){
+				//		scene.scene.remove(hit);
+				//		Score +=1;
+				//	}
+				//}
 				bird.reset();
 			}
 			ArrayList<Pig> pigs = scene.GetPig();
