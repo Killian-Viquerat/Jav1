@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
+import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Word;
+import ch.cpnv.jav1.activities.Play;
 
 public class Bubble extends TextualObject {
     private float Duration;
@@ -16,13 +18,13 @@ public class Bubble extends TextualObject {
     private BitmapFont font;
     private GlyphLayout glyphLayout;
 
-    public Bubble(float srcX, float srcY, Word word, float duration) {
-        super(picName, srcX, srcY, WIDTH, HEIGHT, word);
+    public Bubble(float srcX, float srcY, SemanticWord word, float duration) {
+        super(picName, srcX, srcY, WIDTH, HEIGHT, word.getValue("en"));
         Duration = duration;
         font = new BitmapFont();
         font.getData().setScale(2f);
         font.setColor(Color.BLACK);
-        glyphLayout = new GlyphLayout(font, word.getValue2());
+        glyphLayout = new GlyphLayout(font, word.getValue(Play.ISO2));
         setSize(glyphLayout.width*2,glyphLayout.height*4);
     }
 

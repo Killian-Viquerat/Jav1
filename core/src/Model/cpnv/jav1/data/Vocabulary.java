@@ -6,18 +6,18 @@ import ch.cpnv.jav1.jav1bird;
 public class Vocabulary{
 
     private String vocName;
-    private ArrayList<Word> words;
+    private ArrayList<SemanticWord> words;
 
     public Vocabulary(String vocName){
         this.vocName = vocName;
-        this.words = new ArrayList<Word>();
+        this.words = new ArrayList<SemanticWord>();
     }
 
-    public void addWord(Word w){
-        words.add(w);
+    public void addSemanticWord(SemanticWord sw){
+        words.add(sw);
     }
 
-    public Word pickAWord(){
+    public SemanticWord pickAWord(){
         return words.get(jav1bird.random.nextInt(words.size()));
     }
 }

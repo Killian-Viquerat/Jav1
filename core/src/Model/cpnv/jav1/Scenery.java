@@ -1,6 +1,7 @@
 package Model.cpnv.jav1;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Vocabulary;
 import Model.cpnv.jav1.data.Word;
 import ch.cpnv.jav1.activities.Play;
@@ -51,8 +52,8 @@ public class Scenery {
 
     public void createLevel(Vocabulary voc){
         addBlock();
-        addPig(voc);
         addTnt();
+        addPig(voc);
     }
 
     public void draw(Batch batch){
@@ -80,7 +81,7 @@ public class Scenery {
         return pigs;
     }
 
-    public Word GetRandomPigWord(){
+    public SemanticWord GetRandomPigWord(){
         ArrayList<Pig> pigs = new ArrayList<Pig>();
         for(PhysicalObject object :scene){
             if(object instanceof Pig){

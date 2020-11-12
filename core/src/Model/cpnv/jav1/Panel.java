@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Word;
 import ch.cpnv.jav1.activities.Play;
+import ch.cpnv.jav1.activities.Welcome;
 
 public class Panel extends Sprite {
 
@@ -20,9 +22,9 @@ public class Panel extends Sprite {
     private static final float TEXT_OFFSET_Y = 125;
 
     private BitmapFont font;
-    public Word word;
+    public SemanticWord word;
 
-    public Panel(Word word){
+    public Panel(SemanticWord word){
         super(new Texture(PICNAME));
         setBounds(POSX,POSY,WIDTH,HEIGHT);
         this.word = word;
@@ -32,7 +34,7 @@ public class Panel extends Sprite {
     }
 
     public void drawFont(Batch batch){
-        font.draw(batch, word.getValue1(),getX()+TEXT_OFFSET_X, getY()+TEXT_OFFSET_Y);
+        font.draw(batch, word.getValue(Play.ISO1),getX()+TEXT_OFFSET_X, getY()+TEXT_OFFSET_Y);
     }
 
     public void draw(Batch batch){
