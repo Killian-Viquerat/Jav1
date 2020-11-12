@@ -1,6 +1,8 @@
 package Model.cpnv.providers;
 
 import java.util.ArrayList;
+
+import Model.cpnv.jav1.data.Language;
 import ch.cpnv.jav1.jav1bird;
 import Model.cpnv.jav1.data.Vocabulary;
 import Model.cpnv.jav1.data.Word;
@@ -9,10 +11,16 @@ public class VocProvider {
 
     private static VocProvider single_instance = null;
 
-    public ArrayList<Vocabulary> vocs = new ArrayList<Vocabulary>();
+
+    private ArrayList<Vocabulary> vocs = new ArrayList<Vocabulary>();
+    private ArrayList<Language> languages = new ArrayList<Language>();
 
     private VocProvider()
     {
+        Language l;
+        l = new Language("fr","Français"); languages.add(l);
+        l = new Language("en","English"); languages.add(l);
+        l = new Language("es","Espagnol"); languages.add(l);
         Word w;
         Vocabulary voc = new Vocabulary("L'argent");
 
@@ -139,4 +147,7 @@ public class VocProvider {
 
     public Vocabulary pickAVoc() { return vocs.get(jav1bird.random.nextInt(vocs.size()));}
 
+    public ArrayList<Language> getLanguages() {
+        return languages;
+    }
 }
