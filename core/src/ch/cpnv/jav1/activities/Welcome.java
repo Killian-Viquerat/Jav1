@@ -1,5 +1,7 @@
 package ch.cpnv.jav1.activities;
 
+import Model.cpnv.jav1.data.Language;
+import Model.cpnv.providers.VocProvider;
 import ch.cpnv.jav1.jav1bird;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -28,6 +30,11 @@ public class Welcome extends Game implements InputProcessor{
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private BitmapFont font;
+	private ArrayList<Language> languages;
+	private ArrayList<Button> buttons1 = new ArrayList<Button>();
+	private int Y_buttons = 350;
+	private ArrayList<Button> buttons2 = new ArrayList<Button>();
+	private VocProvider vocSource = VocProvider.getInstance();
 
 	public Welcome() {
 		camera = new OrthographicCamera();
@@ -40,6 +47,16 @@ public class Welcome extends Game implements InputProcessor{
 		font = new BitmapFont();
 		font.getData().setScale(3f);
 		Gdx.input.setInputProcessor(this);
+		languages = vocSource.getLanguages();
+		for(Language language :languages) {
+			Button button = new Button(WORLD_WIDTH/3,Y_buttons,language.getDisplayName()); buttons1.add(button);
+			Y_buttons -= (button.getHeight()+10);
+		}
+		Y_buttons = 350;
+		for(Language language :languages) {
+			Button button = new Button(WORLD_WIDTH/2,Y_buttons,language.getDisplayName()); buttons2.add(button);
+			Y_buttons -= (button.getHeight()+10);
+		}
 	}
 
 	@Override
@@ -52,7 +69,14 @@ public class Welcome extends Game implements InputProcessor{
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-		font.draw(batch, "Welcome to Angryyy Worst", WORLD_WIDTH/3, WORLD_HEIGHT/4*3);
+		font.draw(batch, "Angryyy Zawarudo", WORLD_WIDTH/3, WORLD_HEIGHT/5*4);
+		font.draw(batch, "Exercice de (choisir) en (choisir)", WORLD_WIDTH/3, WORLD_HEIGHT/5*3);
+		for(Button button : buttons1){
+			button.draw(batch);
+		}
+		for(Button button : buttons2){
+			button.draw(batch);
+		}
 		batch.end();
 	}
 
@@ -77,7 +101,9 @@ public class Welcome extends Game implements InputProcessor{
 	public boolean keyTyped (char character) { return false; }
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		jav1bird.pages.push(new Play());
+		Vector3 pointTouch = camera.unproject(new Vector3(x, y, 0));
+		Vector2 point = new Vector2(pointTouch.x,pointTouch.y);
+		//jav1bird.pages.push(new Play());
 		return false;
 	}
 	@Override
