@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
+import Model.cpnv.jav1.data.SemanticWord;
 import Model.cpnv.jav1.data.Word;
 
 public class Button extends TextualObject {
@@ -17,9 +18,9 @@ public class Button extends TextualObject {
     private GlyphLayout glyphLayout;
     private String value;
 
-    public Button(float srcX, float srcY,  String word){
+    public Button(float srcX, float srcY,  String word, String value){
         super(picName, srcX, srcY, WIDTH, HEIGHT , word);
-        value = word;
+        this.value = value;
         font = new BitmapFont();
         font.getData().setScale(2f);
         font.setColor(Color.WHITE);
@@ -31,6 +32,9 @@ public class Button extends TextualObject {
         return value;
     }
 
+    public String getWord(){
+        return text;
+    }
     public boolean IsTouched(Vector2 point){
         if(this.getBoundingRectangle().contains(point.x, point.y)){
             return true;
